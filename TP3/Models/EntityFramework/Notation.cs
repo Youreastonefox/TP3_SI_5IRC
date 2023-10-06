@@ -18,11 +18,11 @@ public partial class Notation
     [Column("not_note")]
     public int Note { get; set; }
 
-    [ForeignKey(nameof(Utilisateur))]
+    [ForeignKey(nameof(UtilisateurId))]
     [InverseProperty("NotesUtilisateur")]
     public virtual Utilisateur UtilisateurNotant { get; set; } = null!;
 
-    [ForeignKey(nameof(Serie))]
+    [ForeignKey(nameof(SerieId))]
     [InverseProperty("NotesSerie")]
     public virtual Serie SerieNotee { get; set; } = null!;
 }

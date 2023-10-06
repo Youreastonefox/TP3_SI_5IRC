@@ -45,7 +45,7 @@ public partial class NotationDbContext : DbContext
                 .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("fk_not_ser");
 
-            entity.HasCheckConstraint("ck_not_note", "Note>=0 AND Note<=5");
+            entity.HasCheckConstraint("ck_not_note", "not_note between 0 and 5");
         });
 
         modelBuilder.Entity<Utilisateur>(entity =>
@@ -56,8 +56,7 @@ public partial class NotationDbContext : DbContext
 
             entity.Property(b => b.DateCreation).HasDefaultValueSql("now()");
 
-            entity.HasIndex(e => e.Mail).IsUnique();
-
+            entity.HasIndex(e => e.Mail).IsUnique().HasName("uq_utl_mail");
         });
 
         modelBuilder.Entity<Serie>(entity =>

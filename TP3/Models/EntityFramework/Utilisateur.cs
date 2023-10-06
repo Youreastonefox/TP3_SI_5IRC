@@ -58,7 +58,7 @@ public partial class Utilisateur
     [Column("utl_longitude")]
     public float? Longitude { get; set; }
 
-    [Column("utl_datecreation")]
+    [Column("utl_datecreation", TypeName = "date")]
     [Required]
     public DateTime DateCreation { get; set; }
 
