@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TP3.Models.EntityFramework;
@@ -23,50 +24,44 @@ namespace TP3.Controllers
         // GET: api/Utilisateurs
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<Utilisateur>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<IEnumerable<Utilisateur>>> GetUtilisateurs()
         {
-          if (_context.Utilisateurs == null)
-          {
-              return NotFound();
-          }
+            if (_context.Utilisateurs == null) return NotFound("La liste des utilisateurs est inaccessible.");
+
             return await _context.Utilisateurs.ToListAsync();
         }
 
         // GET: api/Utilisateurs/5
-        [HttpGet("{id}")]
+        [HttpGet]
+        [ActionName("GetById")]
+        [Route("[action]/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Utilisateur))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Utilisateur>> GetUtilisateurById(int id)
         {
-          if (_context.Utilisateurs == null)
-          {
-              return NotFound();
-          }
+            if (_context.Utilisateurs == null) return NotFound("La liste des utilisateurs est inaccessible.");
+
             var utilisateur = await _context.Utilisateurs.FindAsync(id);
 
-            if (utilisateur == null)
-            {
-                return NotFound();
-            }
+            if (utilisateur == null) return NotFound("Utilisateur introuvable.");
 
             return utilisateur;
         }
-        //route
-        [HttpGet("email/{email}")]
+
+        // GET: api/Utilisateurs/mail@gmail.com
+        [HttpGet]
+        [ActionName("GetByEmail")]
+        [Route("[action]/{email}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Utilisateur))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Utilisateur>> GetUtilisateurByEmail(string email)
         {
-            if (_context.Utilisateurs == null)
-            {
-                return NotFound();
-            }
-            var utilisateur = await _context.Utilisateurs.FirstOrDefaultAsync(u => u.Mail == email);
+            if (_context.Utilisateurs == null) return NotFound("La liste des utilisateurs est inaccessible."); 
 
-            if (utilisateur == null)
-            {
-                return NotFound();
-            }
+            var utilisateur = await _context.Utilisateurs.FirstOrDefaultAsync(x => x.Mail == email);
+
+            if (utilisateur == null) return NotFound("Utilisateur introuvable.");
 
             return utilisateur;
         }
@@ -76,12 +71,12 @@ namespace TP3.Controllers
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> PutUtilisateur(int id, Utilisateur utilisateur)
         {
-            if (id != utilisateur.UtilisateurId)
-            {
-                return BadRequest();
-            }
+            if (_context.Utilisateurs == null) return NotFound("La liste des utilisateurs est inaccessible.");
+
+            if (id != utilisateur.UtilisateurId) return BadRequest("Utilisateur introuvable.");
 
             _context.Entry(utilisateur).State = EntityState.Modified;
 
@@ -91,14 +86,8 @@ namespace TP3.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UtilisateurExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                if (!UtilisateurExists(id)) return BadRequest("Utilisateur introuvable.");
+                else throw;
             }
 
             return NoContent();
@@ -107,39 +96,61 @@ namespace TP3.Controllers
         // POST: api/Utilisateurs
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status201Created)] // CreatedAtAction
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(Utilisateur))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Utilisateur>> PostUtilisateur(Utilisateur utilisateur)
         {
-          if (_context.Utilisateurs == null)
-          {
-              return Problem("Entity set 'NotationDbContext.Utilisateurs'  is null.");
-          }
+            if (_context.Utilisateurs == null) return NotFound("La liste des utilisateurs est inaccessible.");
+
             _context.Utilisateurs.Add(utilisateur);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUtilisateur", new { id = utilisateur.UtilisateurId }, utilisateur);
+            var result = CreatedAtAction("GetUtilisateur", new { id = utilisateur.UtilisateurId }, utilisateur);
+            if (result == null) return BadRequest("Impossible d'ajouter ce nouvel utilisateur");
+
+            return result;
         }
 
         // DELETE: api/Utilisateurs/5
-        /*[HttpDelete("{id}")]
+        /*
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUtilisateur(int id)
         {
             if (_context.Utilisateurs == null)
             {
-                return NotFound();
+                return NotFound("La liste des utilisateurs est vide.");
             }
             var utilisateur = await _context.Utilisateurs.FindAsync(id);
             if (utilisateur == null)
             {
-                return NotFound();
+                return NotFound("Utilisateur introuvable.");
             }
 
             _context.Utilisateurs.Remove(utilisateur);
-            await _context.SaveChangesAsync();p
+            await _context.SaveChangesAsync();
 
             return NoContent();
-        }*/
+        }
+        */
+
+
+        [HttpPatch("{id:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<Utilisateur>> PatchUtilisateur(int id, [FromBody] JsonPatchDocument<Utilisateur> patchUser)
+        {
+            if (_context.Utilisateurs == null) return NotFound("La liste des utilisateurs est inaccessible.");
+
+            var entity = await _context.Utilisateurs.FirstOrDefaultAsync(u => u.UtilisateurId == id);
+
+            if (entity == null) return BadRequest("Utilisateur introuvable.");
+
+            patchUser.ApplyTo(entity);
+
+            return entity;
+        }
 
         private bool UtilisateurExists(int id)
         {

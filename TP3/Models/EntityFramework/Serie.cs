@@ -16,8 +16,8 @@ public partial class Serie
 
     [Column("ser_titre")]
     [StringLength(100)]
-    [Required]
-    public string Titre { get; set; }
+    [Required(ErrorMessage="Le titre est requis.")]
+    public string? Titre { get; set; }
 
     [Column("ser_resume")]
     public string? Resume { get; set; }
@@ -29,6 +29,7 @@ public partial class Serie
     public int? NbEpisodes { get; set; }
 
     [Column("ser_anneecreation")]
+    [RegularExpression(@"^\d{4}$", ErrorMessage = "Mauvais format de date.")]
     public int? AnneeCreation { get; set; }
 
     [Column("ser_network")]

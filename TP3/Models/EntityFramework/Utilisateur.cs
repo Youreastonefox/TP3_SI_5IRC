@@ -15,28 +15,28 @@ public partial class Utilisateur
     public int UtilisateurId { get; set; }
 
     [Column("utl_nom")]
-    [StringLength(50)]
+    [StringLength(50, MinimumLength = 1, ErrorMessage = "Le nom ne peut pas être vide.")]
     public string? Nom { get; set; }
 
     [Column("utl_prenom")]
-    [StringLength(50)]
+    [StringLength(50, MinimumLength = 1, ErrorMessage = "Le prénom ne peut pas être vide.")]
     public string? Prenom { get; set; }
 
-    [Column("utl_mobile", TypeName="char(100)")]
-    [StringLength(100)]
-    [RegularExpression(@"^((\+)33|0)[1-9](\d{2}){4}$", ErrorMessage = "Le numéro de téléphone doit être au format 0X XX XX XX XX ou +33 X XX XX XX XX")]
+    [Column("utl_mobile", TypeName="char(10)")]
+    [StringLength(10)]
+    [RegularExpression(@"^0[0-9]{9}$", ErrorMessage = "Le mobile doit contenir 10 chiffres.")]
     public string? Mobile { get; set; }
 
-    [Required]
+    [Required(ErrorMessage="L'adresse mail est requise.")]
     [Column("utl_mail")]
-    [EmailAddress]
     [StringLength(100, MinimumLength = 6, ErrorMessage = "La longueur d’un email doit être comprise entre 6 et 100 caractères.")]
+    [EmailAddress(ErrorMessage="Mauvais format d'adresse mail.")]
     public string? Mail { get; set; }
 
     [Column("utl_pwd")]
     [StringLength(64)]
-    [Required]
-    [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{{8,}}$", ErrorMessage = "Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial.")]
+    [Required(ErrorMessage="Le mot de passe est requis.")]
+    [RegularExpression(@"^(?=.*[A-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@-_'=*!?])\S{6,10}$", ErrorMessage = "Le mot de passe doit contenir entre 6 et 10 caractères et au moins 1 majuscule, 1 chiffre et 1 caractère spécial")]
     public string? Pwd { get; set; }
 
     [Column("utl_rue")]
@@ -44,7 +44,7 @@ public partial class Utilisateur
     public string? Rue { get; set; }
 
     [Column("utl_cp", TypeName="char(50)")]
-    [StringLength(50)]
+    [StringLength(50, MinimumLength = 5, ErrorMessage = "Le code postale doit contenir au moins 5 chiffres.")]
     public string? CodePostal { get; set; }
 
     [Column("utl_ville")]
@@ -56,13 +56,15 @@ public partial class Utilisateur
     public string? Pays { get; set; }
 
     [Column("utl_latitude")]
+    [RegularExpression(@"^-?([1-8]?[1-9]|[1-9]0)\.{1}\d{1,6}", ErrorMessage = "Mauvais format de latitude.")]
     public float? Latitude { get; set; }
 
     [Column("utl_longitude")]
+    [RegularExpression(@"^-?([1]?[1-7][1-9]|[1]?[1-8][0]|[1-9]?[0-9])\.{1}\d{1,6}", ErrorMessage = "Mauvais format de longitude.")]
     public float? Longitude { get; set; }
 
     [Column("utl_datecreation", TypeName = "date")]
-    [Required]
+    [Required(ErrorMessage="La date de création est requise")]
     public DateTime DateCreation { get; set; }
 
     [InverseProperty("UtilisateurNotant")]

@@ -1,5 +1,5 @@
-using Microsoft.EntityFrameworkCore;
 using TP3.Models.EntityFramework;
+using Microsoft.EntityFrameworkCore;
 
 namespace TP3
 {
@@ -15,6 +15,12 @@ namespace TP3
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services
+                .AddControllersWithViews()
+                .AddNewtonsoftJson();
+            builder.Services.AddDbContext<NotationDbContext>(options =>
+                options.UseNpgsql(builder.Configuration.GetConnectionString("NotationDbContext"))
+            );
 
             builder.Services.AddDbContext<NotationDbContext>(options =>
                 options.UseNpgsql(builder.Configuration.GetConnectionString("NotationDbContext")));
