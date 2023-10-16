@@ -11,7 +11,7 @@ namespace TP3.Controllers.Tests
         [TestMethod()]
         public void GetUtilisateursTest()
         {
-            var builder = new DbContextOptionsBuilder<NotationDbContext>().UseNpgsql("Server=localhost;port=5432;Database=TP3; uid=root;password=root;");
+            var builder = new DbContextOptionsBuilder<NotationDbContext>().UseNpgsql("Server=localhost;port=5432;Database=TP3; uid=root;password=L1jdr2tv;");
             NotationDbContext _context = new NotationDbContext(builder.Options);
             
             var users = _context.Utilisateurs.ToList();
@@ -21,7 +21,7 @@ namespace TP3.Controllers.Tests
         [TestMethod()]
         public void GetUtilisateurByIdPassTest()
         {
-            var builder = new DbContextOptionsBuilder<NotationDbContext>().UseNpgsql("Server=localhost;port=5432;Database=TP3; uid=root;password=root;");
+            var builder = new DbContextOptionsBuilder<NotationDbContext>().UseNpgsql("Server=localhost;port=5432;Database=TP3; uid=root;password=L1jdr2tv;");
             NotationDbContext _context = new NotationDbContext(builder.Options);
 
             var user = _context.Utilisateurs.Find(1);
@@ -31,7 +31,7 @@ namespace TP3.Controllers.Tests
         [TestMethod()]
         public void GetUtilisateurByIdFailTest()
         {
-            var builder = new DbContextOptionsBuilder<NotationDbContext>().UseNpgsql("Server=localhost;port=5432;Database=TP3; uid=root;password=root;");
+            var builder = new DbContextOptionsBuilder<NotationDbContext>().UseNpgsql("Server=localhost;port=5432;Database=TP3; uid=root;password=L1jdr2tv;");
             NotationDbContext _context = new NotationDbContext(builder.Options);
 
             var user = _context.Utilisateurs.Find(0);
@@ -41,7 +41,7 @@ namespace TP3.Controllers.Tests
         [TestMethod()]
         public void GetUtilisateurByEmailPassTest()
         {
-            var builder = new DbContextOptionsBuilder<NotationDbContext>().UseNpgsql("Server=localhost;port=5432;Database=TP3; uid=root;password=root;");
+            var builder = new DbContextOptionsBuilder<NotationDbContext>().UseNpgsql("Server=localhost;port=5432;Database=TP3; uid=root;password=L1jdr2tv;");
             NotationDbContext _context = new NotationDbContext(builder.Options);
 
             var user = _context.Utilisateurs.Where(u => u.Mail == "lspongv@berkeley.edu")
@@ -52,7 +52,7 @@ namespace TP3.Controllers.Tests
         [TestMethod()]
         public void GetUtilisateurByEmailFailTest()
         {
-            var builder = new DbContextOptionsBuilder<NotationDbContext>().UseNpgsql("Server=localhost;port=5432;Database=TP3; uid=root;password=root;");
+            var builder = new DbContextOptionsBuilder<NotationDbContext>().UseNpgsql("Server=localhost;port=5432;Database=TP3; uid=root;password=L1jdr2tv;");
             NotationDbContext _context = new NotationDbContext(builder.Options);
 
             var user = _context.Utilisateurs.Where(u => u.Mail == "apjebvpkqhdfbvkjbvpksjdfbvlkshdfbv");
@@ -62,7 +62,7 @@ namespace TP3.Controllers.Tests
         [TestMethod]
         public void Postutilisateur_ModelValidated_CreationOK()
         {
-            var builder = new DbContextOptionsBuilder<NotationDbContext>().UseNpgsql("Server=localhost;port=5432;Database=TP3; uid=root;password=root");
+            var builder = new DbContextOptionsBuilder<NotationDbContext>().UseNpgsql("Server=localhost;port=5432;Database=TP3; uid=root;password=L1jdr2tv");
             NotationDbContext _context = new NotationDbContext(builder.Options);
             var _controller = new UtilisateursController(_context);
             Random rnd = new Random();
@@ -91,7 +91,7 @@ namespace TP3.Controllers.Tests
         [TestMethod]
         public void PutUtilisateurTest()
         {
-            var builder = new DbContextOptionsBuilder<NotationDbContext>().UseNpgsql("Server=localhost;port=5432;Database=TP3; uid=root;password=root;");
+            var builder = new DbContextOptionsBuilder<NotationDbContext>().UseNpgsql("Server=localhost;port=5432;Database=TP3; uid=root;password=L1jdr2tv;");
             NotationDbContext _context = new NotationDbContext(builder.Options);
             var _controller = new UtilisateursController(_context);
             Random rnd = new Random();
