@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using TP3.Models.EntityFramework;
+
 namespace TP3
 {
     public class Program
@@ -12,6 +15,9 @@ namespace TP3
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddDbContext<NotationDbContext>(options =>
+                options.UseNpgsql(builder.Configuration.GetConnectionString("NotationDbContext")));
 
             var app = builder.Build();
 

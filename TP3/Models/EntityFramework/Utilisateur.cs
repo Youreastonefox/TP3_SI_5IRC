@@ -22,18 +22,21 @@ public partial class Utilisateur
     [StringLength(50)]
     public string? Prenom { get; set; }
 
-    [Column("utl_mobile", TypeName="char(10)")]
-    [StringLength(10)]
+    [Column("utl_mobile", TypeName="char(100)")]
+    [StringLength(100)]
+    [RegularExpression(@"^((\+)33|0)[1-9](\d{2}){4}$", ErrorMessage = "Le numéro de téléphone doit être au format 0X XX XX XX XX ou +33 X XX XX XX XX")]
     public string? Mobile { get; set; }
 
-    [Column("utl_mail")]
-    [StringLength(100)]
     [Required]
+    [Column("utl_mail")]
+    [EmailAddress]
+    [StringLength(100, MinimumLength = 6, ErrorMessage = "La longueur d’un email doit être comprise entre 6 et 100 caractères.")]
     public string? Mail { get; set; }
 
     [Column("utl_pwd")]
     [StringLength(64)]
     [Required]
+    [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{{8,}}$", ErrorMessage = "Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial.")]
     public string? Pwd { get; set; }
 
     [Column("utl_rue")]
