@@ -62,7 +62,7 @@ namespace TP3.Controllers.Tests
         [TestMethod]
         public void Postutilisateur_ModelValidated_CreationOK()
         {
-            var builder = new DbContextOptionsBuilder<NotationDbContext>().UseNpgsql("Server=localhost;port=5432;Database=TP3; uid=root;password=root;Include Error Detail");
+            var builder = new DbContextOptionsBuilder<NotationDbContext>().UseNpgsql("Server=localhost;port=5432;Database=TP3; uid=root;password=root");
             NotationDbContext _context = new NotationDbContext(builder.Options);
             var _controller = new UtilisateursController(_context);
             Random rnd = new Random();
