@@ -6,7 +6,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace TP3.Migrations
 {
-    public partial class CreationBDSeries : Migration
+    public partial class NotationDBAnnotations : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

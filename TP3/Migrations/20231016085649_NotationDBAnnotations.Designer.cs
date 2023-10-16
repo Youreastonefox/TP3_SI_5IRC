@@ -12,15 +12,15 @@ using TP3.Models.EntityFramework;
 namespace TP3.Migrations
 {
     [DbContext(typeof(NotationDbContext))]
-    [Migration("20231006152321_CreationBDSeries")]
-    partial class CreationBDSeries
+    [Migration("20231016085649_NotationDBAnnotations")]
+    partial class NotationDBAnnotations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasDefaultSchema("public")
-                .HasAnnotation("ProductVersion", "6.0.22")
+                .HasAnnotation("ProductVersion", "6.0.23")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);

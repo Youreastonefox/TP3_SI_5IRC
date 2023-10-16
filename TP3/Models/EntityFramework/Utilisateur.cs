@@ -24,16 +24,19 @@ public partial class Utilisateur
 
     [Column("utl_mobile", TypeName="char(10)")]
     [StringLength(10)]
+    [RegularExpression(@"^0[0-9]{9}$", ErrorMessage = "Le mobile doit contenir 10 chiffres.")]
     public string? Mobile { get; set; }
 
-    [Column("utl_mail")]
-    [StringLength(100)]
     [Required]
+    [Column("utl_mail")]
+    [StringLength(100, MinimumLength = 6, ErrorMessage = "La longueur d’un email doit être comprise entre 6 et 100 caractères.")]
+    [EmailAddress]
     public string? Mail { get; set; }
 
     [Column("utl_pwd")]
     [StringLength(64)]
     [Required]
+    [RegularExpression(@"^(?=.*[A-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@-_'=*!?])\S{6,10}$", ErrorMessage = "Le mot de passe doit contenir entre 6 et 10 caractères et au moins 1 majuscule, 1 chiffre et 1 caractère spécial")]
     public string? Pwd { get; set; }
 
     [Column("utl_rue")]
@@ -41,7 +44,7 @@ public partial class Utilisateur
     public string? Rue { get; set; }
 
     [Column("utl_cp", TypeName="char(50)")]
-    [StringLength(50)]
+    [StringLength(50, MinimumLength = 5, ErrorMessage = "Le code postale doit contenir au moins 5 chiffres.")]
     public string? CodePostal { get; set; }
 
     [Column("utl_ville")]

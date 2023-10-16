@@ -24,8 +24,8 @@ public partial class NotationDbContext : DbContext
     public virtual DbSet<Serie> Series { get; set; }
 
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseNpgsql("Server=localhost;port=5432;Database=TP3; uid=postgres;password=L1jdr2tv;");
+    //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    //    => optionsBuilder.UseNpgsql("Server=localhost;port=5432;Database=TP3; uid=postgres;password=L1jdr2tv;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
