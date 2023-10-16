@@ -26,10 +26,7 @@ namespace TP3.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<IEnumerable<Utilisateur>>> GetUtilisateurs()
         {
-            if (_context.Utilisateurs == null)
-            {
-                return NotFound("La liste des utilisateurs est vide.");
-            }
+            if (_context.Utilisateurs == null) return NotFound("La liste des utilisateurs est inaccessible.");
 
             return await _context.Utilisateurs.ToListAsync();
         }
@@ -42,7 +39,7 @@ namespace TP3.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Utilisateur>> GetUtilisateurById(int id)
         {
-            if (_context.Utilisateurs == null) return NotFound("La liste des utilisateurs est vide.");
+            if (_context.Utilisateurs == null) return NotFound("La liste des utilisateurs est inaccessible.");
 
             var utilisateur = await _context.Utilisateurs.FindAsync(id);
 
@@ -59,7 +56,7 @@ namespace TP3.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Utilisateur>> GetUtilisateurByEmail(string email)
         {
-            if (_context.Utilisateurs == null) return NotFound("La liste des utilisateurs est vide."); 
+            if (_context.Utilisateurs == null) return NotFound("La liste des utilisateurs est inaccessible."); 
 
             var utilisateur = await _context.Utilisateurs.FirstOrDefaultAsync(x => x.Mail == email);
 
@@ -71,15 +68,14 @@ namespace TP3.Controllers
         // PUT: api/Utilisateurs/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> PutUtilisateur(int id, Utilisateur utilisateur)
         {
-            if (id != utilisateur.UtilisateurId)
-            {
-                return BadRequest("Utilisateur avec cet id introuvable.");
-            }
+            if (_context.Utilisateurs == null) return NotFound("La liste des utilisateurs est inaccessible.");
+
+            if (id != utilisateur.UtilisateurId) return BadRequest("Utilisateur introuvable.");
 
             _context.Entry(utilisateur).State = EntityState.Modified;
 
@@ -89,14 +85,8 @@ namespace TP3.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UtilisateurExists(id))
-                {
-                    return NotFound("Utilisateur introuvable.");
-                }
-                else
-                {
-                    throw;
-                }
+                if (!UtilisateurExists(id)) return BadRequest("Utilisateur introuvable.");
+                else throw;
             }
 
             return NoContent();
@@ -110,7 +100,7 @@ namespace TP3.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Utilisateur>> PostUtilisateur(Utilisateur utilisateur)
         {
-            if (_context.Utilisateurs == null) return NotFound("La liste des utilisateurs est vide.");
+            if (_context.Utilisateurs == null) return NotFound("La liste des utilisateurs est inaccessible.");
 
             _context.Utilisateurs.Add(utilisateur);
             await _context.SaveChangesAsync();

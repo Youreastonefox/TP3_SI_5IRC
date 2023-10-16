@@ -22,12 +22,11 @@ namespace TP3.Controllers
 
         // GET: api/Notations
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<Notation>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<IEnumerable<Notation>>> GetNotations()
         {
-          if (_context.Notations == null)
-          {
-              return NotFound();
-          }
+            if (_context.Notations == null) return NotFound("La liste des notations est vide ou inaccessible.");
             return await _context.Notations.ToListAsync();
         }
 
@@ -35,18 +34,16 @@ namespace TP3.Controllers
         [HttpGet]
         [ActionName("GetById")]
         [Route("[action]/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Notation))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<Notation>> GetNotationById(int id)
         {
-          if (_context.Notations == null)
-          {
-              return NotFound();
-          }
+            if (_context.Notations == null) return NotFound("La liste des notations est vide ou inaccessible.");
+
             var notation = await _context.Notations.FindAsync(id);
 
-            if (notation == null)
-            {
-                return NotFound();
-            }
+            if (notation == null) return BadRequest("Notation introuvable.");
 
             return notation;
         }
@@ -54,12 +51,14 @@ namespace TP3.Controllers
         // PUT: api/Notations/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> PutNotation(int id, Notation notation)
         {
-            if (id != notation.UtilisateurId)
-            {
-                return BadRequest();
-            }
+            if (_context.Notations == null) return NotFound("La liste des notations est vide ou inaccessible.");
+
+            if (id != notation.UtilisateurId) return BadRequest("Notation introuvable.");
 
             _context.Entry(notation).State = EntityState.Modified;
 
@@ -71,7 +70,7 @@ namespace TP3.Controllers
             {
                 if (!NotationExists(id))
                 {
-                    return NotFound();
+                    return BadRequest("Notation introuvable");
                 }
                 else
                 {
@@ -85,33 +84,24 @@ namespace TP3.Controllers
         // POST: api/Notations
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<Notation>> PostNotation(Notation notation)
         {
-          if (_context.Notations == null)
-          {
-              return Problem("Entity set 'NotationDbContext.Notations'  is null.");
-          }
-            _context.Notations.Add(notation);
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (NotationExists(notation.UtilisateurId))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            if (_context.Notations == null) return NotFound("La liste des notations est vide ou inaccessible.");
 
-            return CreatedAtAction("GetNotation", new { id = notation.UtilisateurId }, notation);
+            _context.Notations.Add(notation);
+            await _context.SaveChangesAsync();
+
+            var result = CreatedAtAction("GetNotation", new { id = notation.UtilisateurId }, notation);
+            if (result == null) return BadRequest("Impossible d'ajouter ce nouvel utilisateur");
+
+            return result;
         }
 
         // DELETE: api/Notations/5
+        /*
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteNotation(int id)
         {
@@ -130,6 +120,7 @@ namespace TP3.Controllers
 
             return NoContent();
         }
+        */
 
         private bool NotationExists(int id)
         {
