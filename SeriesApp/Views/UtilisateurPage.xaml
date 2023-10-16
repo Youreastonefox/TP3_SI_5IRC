@@ -1,0 +1,206 @@
+﻿<Page
+    x:Class="SeriesApp.Views.UtilisateurPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <RelativePanel 
+        HorizontalAlignment="Center"
+        CornerRadius="16"
+        BorderBrush="#588157"
+        BorderThickness="1"
+        Padding="16"
+        Margin="16"
+        >
+
+        <!-- HEADER - Searchbar -->
+        <RelativePanel 
+                x:Name="header"
+                RelativePanel.AlignHorizontalCenterWithPanel="True"
+                Margin="0,0,0,32" 
+                Width="400"
+                Background="#2a2e2d"
+                CornerRadius="16">
+
+            <TextBlock 
+                Text="Mail" 
+                FontSize="24"
+                FontWeight="Bold" 
+                Margin="0,20,0,20"
+                Foreground="#588157"
+                RelativePanel.AlignHorizontalCenterWithPanel="True"
+                />
+
+        </RelativePanel>
+
+
+        <!-- BODY -->
+        
+        <!-- Nom -->
+        <StackPanel 
+            x:Name="lastname"
+            RelativePanel.Below="header"
+            RelativePanel.AlignHorizontalCenterWithPanel="True"
+            Orientation="Horizontal" 
+            Margin="0,0,0,10">
+
+            <TextBox 
+                x:Name="lastnameInput"
+                Header="Nom :" 
+                Width="300" 
+                HorizontalAlignment="Left"
+                IsReadOnly="True"/>
+            <!--Text="{Binding ResultInput, Mode=TwoWay}"-->
+
+        </StackPanel>
+
+        <!-- Prénom -->
+        <StackPanel 
+            x:Name="firstname"
+            RelativePanel.Below="lastname"
+            RelativePanel.AlignHorizontalCenterWithPanel="True"
+            Orientation="Horizontal" 
+            Margin="0,0,0,10">
+
+            <TextBox 
+                x:Name="firstnameInput"
+                Header="Prénom :" 
+                Width="300" 
+                HorizontalAlignment="Left"
+                IsReadOnly="True"/>
+            <!--Text="{Binding ResultInput, Mode=TwoWay}"-->
+
+        </StackPanel>
+
+        <!-- Prénom -->
+        <StackPanel 
+            x:Name="phone"
+            RelativePanel.Below="firstname"
+            RelativePanel.AlignHorizontalCenterWithPanel="True"
+            Orientation="Horizontal" 
+            Margin="0,0,0,10">
+
+            <TextBox 
+                x:Name="phoneInput"
+                Header="Numéro de téléphone :" 
+                Width="300" 
+                HorizontalAlignment="Left"
+                IsReadOnly="True"/>
+            <!--Text="{Binding ResultInput, Mode=TwoWay}"-->
+
+        </StackPanel>
+
+        <!-- Mail -->
+        <StackPanel 
+            x:Name="mail"
+            RelativePanel.Below="phone"
+            RelativePanel.AlignHorizontalCenterWithPanel="True"
+            Orientation="Horizontal" 
+            Margin="0,0,0,10">
+
+            <TextBox 
+                x:Name="mailInput"
+                Header="Adresse mail :" 
+                Width="300" 
+                HorizontalAlignment="Left"
+                IsReadOnly="True"/>
+            <!--Text="{Binding ResultInput, Mode=TwoWay}"-->
+
+        </StackPanel>
+
+        <!-- Mot de passe -->
+        <StackPanel 
+            x:Name="password"
+            RelativePanel.Below="mail"
+            RelativePanel.AlignHorizontalCenterWithPanel="True"
+            Orientation="Horizontal" 
+            Margin="0,0,0,10">
+
+            <TextBox 
+                x:Name="passwordInput"
+                Header="Mot de passe :" 
+                Width="300" 
+                HorizontalAlignment="Left"
+                IsReadOnly="True"/>
+            <!--Text="{Binding ResultInput, Mode=TwoWay}"-->
+
+        </StackPanel>
+
+        <!-- Adresse -->
+        <StackPanel 
+            x:Name="address"
+            RelativePanel.Below="password"
+            RelativePanel.AlignHorizontalCenterWithPanel="True"
+            Orientation="Vertical" 
+            Margin="0,0,0,10">
+
+            <!-- Rue -->
+            <StackPanel 
+                x:Name="street"
+                RelativePanel.AlignVerticalCenterWithPanel="True"
+                Margin="0,0,0,5"
+                Width="200" >
+
+                <TextBox 
+                    x:Name="streetInput"
+                    Header="Rue :" 
+                    />
+                <!--Text="{Binding ResultInput, Mode=TwoWay}"-->
+
+            </StackPanel>
+
+            <!-- Code postal -->
+            <StackPanel 
+                x:Name="cp"
+                RelativePanel.Below="street"
+                RelativePanel.AlignVerticalCenterWithPanel="True"
+                Margin="0,0,0,5"
+                Width="200" 
+                >
+
+                <TextBox 
+                    x:Name="cpInput"
+                    Header="Code postal :" 
+                    />
+                <!--Text="{Binding ResultInput, Mode=TwoWay}"-->
+
+            </StackPanel>
+
+            <!-- Ville -->
+            <StackPanel 
+                x:Name="city"
+                RelativePanel.Below="cp"
+                RelativePanel.AlignVerticalCenterWithPanel="True"
+                Margin="0,0,0,5"
+                Width="200" 
+                >
+
+                <TextBox 
+                    x:Name="cityInput"
+                    Header="Ville :" 
+                    />
+                <!--Text="{Binding ResultInput, Mode=TwoWay}"-->
+
+            </StackPanel>
+
+            <!-- Code postal -->
+            <StackPanel 
+                x:Name="country"
+                RelativePanel.Below="city"
+                RelativePanel.AlignVerticalCenterWithPanel="True"
+                Margin="0,0,0,5"
+                Width="200" 
+                >
+
+                <TextBox 
+                    x:Name="countryInput"
+                    Header="Pays :" 
+                    />
+                <!--Text="{Binding ResultInput, Mode=TwoWay}"-->
+
+            </StackPanel>
+        </StackPanel>
+    </RelativePanel>
+</Page>
