@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TP3.Models.EntityFramework;
@@ -132,6 +133,24 @@ namespace TP3.Controllers
             return NoContent();
         }
         */
+
+
+        [HttpPatch("{id:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<Utilisateur>> PatchUtilisateur(int id, [FromBody] JsonPatchDocument<Utilisateur> patchUser)
+        {
+            if (_context.Utilisateurs == null) return NotFound("La liste des utilisateurs est inaccessible.");
+
+            var entity = await _context.Utilisateurs.FirstOrDefaultAsync(u => u.UtilisateurId == id);
+
+            if (entity == null) return BadRequest("Utilisateur introuvable.");
+
+            patchUser.ApplyTo(entity);
+
+            return entity;
+        }
 
         private bool UtilisateurExists(int id)
         {

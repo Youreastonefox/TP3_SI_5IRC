@@ -91,7 +91,7 @@ namespace TP3.Controllers
             _context.Series.Add(serie);
             await _context.SaveChangesAsync();
 
-            var result = CreatedAtAction("GetSerie", new { id = serie.SerieId }, serie)
+            var result = CreatedAtAction("GetSerie", new { id = serie.SerieId }, serie);
             if (result == null) return BadRequest("Impossible d'ajouter ce nouvel utilisateur");
 
             return result;
