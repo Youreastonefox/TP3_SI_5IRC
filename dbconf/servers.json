@@ -1,0 +1,12 @@
+{
+    "Servers": {
+        "1": {
+            "Name": "Docker PostgreSQL",
+            "Host": "db",
+            "Group": "Servers",
+            "Port": 5432,
+            "Username": "root",
+            "MaintenanceDB": "Films"
+        }
+    }
+}
