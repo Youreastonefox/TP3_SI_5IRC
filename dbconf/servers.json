@@ -6,7 +6,7 @@
             "Group": "Servers",
             "Port": 5432,
             "Username": "root",
-            "MaintenanceDB": "Films"
+            "MaintenanceDB": "TP3"
         }
     }
 }
