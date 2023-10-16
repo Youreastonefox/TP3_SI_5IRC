@@ -25,7 +25,7 @@ public partial class NotationDbContext : DbContext
 
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseNpgsql("Server=localhost;port=5432;Database=TP3; uid=postgres;password=L1jdr2tv;");
+        => optionsBuilder.UseNpgsql("Server=localhost;port=5432;Database=TP3; uid=root;password=root;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
