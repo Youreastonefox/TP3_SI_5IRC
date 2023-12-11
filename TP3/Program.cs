@@ -1,5 +1,7 @@
 using TP3.Models.EntityFramework;
 using Microsoft.EntityFrameworkCore;
+using TP3.Models.DataManager;
+using TP3.Models.Repository;
 
 namespace TP3
 {
@@ -24,6 +26,8 @@ namespace TP3
 
             builder.Services.AddDbContext<NotationDbContext>(options =>
                 options.UseNpgsql(builder.Configuration.GetConnectionString("NotationDbContext")));
+
+            builder.Services.AddScoped<IDataRepository<Utilisateur>, UtilisateurManager>();
 
             var app = builder.Build();
 
